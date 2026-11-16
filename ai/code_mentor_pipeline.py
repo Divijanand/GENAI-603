@@ -16,6 +16,8 @@ import json
 import subprocess
 import sys
 
+# from database.taxonomy import categorize
+
 
 def ast_analysis(user_code):
     """
@@ -41,11 +43,24 @@ def ast_analysis(user_code):
 
     try:
         ast.parse(user_code)  # parse the source code without executing it.
+
+    except IndentationError as error:
+        ast_errors.append(  # convert Python's IndentationError into a structured finding.
+            {
+                "source": "AST",
+                "type": "indentation",
+                "category": "indentation",
+                "line": error.lineno,
+                "message": error.msg,
+            }
+        )
+
     except SyntaxError as error:
         ast_errors.append(  # convert Python's SyntaxError into a structured finding.
             {
                 "source": "AST",
                 "type": "syntax",
+                "category": "syntax",
                 "line": error.lineno,
                 "message": error.msg,
             }
@@ -103,6 +118,7 @@ def ruff_analysis(user_code):
             {
                 "source": "Ruff",
                 "type": issue["code"],
+                # "category": categorize(issue["code"]),
                 "line": issue["location"]["row"],
                 "message": issue["message"],
             }
