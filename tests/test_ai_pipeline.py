@@ -16,10 +16,13 @@ pprint("------static analysis findings------")
 pprint(results)
 pprint("------------------------------------")
 
-# feedback = generate_feedback(sample_code, results)
-# pprint("------llm analysis findings------")
-# pprint(feedback)
-# pprint("---------------------------------")
+feedback = generate_feedback(sample_code, results)
+pprint("------llm analysis findings------")
+pprint(feedback)
+pprint("---------------------------------")
+
+"""
+for reference: what the llm feedback could look like
 
 feedback = {
     "feedback": [
@@ -52,6 +55,7 @@ feedback = {
         },
     ]
 }
+"""
 
 feedback2 = deepcopy(feedback)
 feedback2["feedback"][0].pop("hint")
