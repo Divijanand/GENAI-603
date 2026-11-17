@@ -16,6 +16,7 @@ CATEGORIES = (
 # to a category, so static-analysis findings classify without an LLM call.
 RULE_TO_CATEGORY = {
     "E999": "syntax",
+    "invalid-syntax": "syntax",
     "SyntaxError": "syntax",
     "IndentationError": "indentation",
     "E1": "indentation",
@@ -23,6 +24,9 @@ RULE_TO_CATEGORY = {
     "NameError": "name",
     "TypeError": "type",
     "IndexError": "index_bounds",
+    "F401": "style",  # unused import
+    "F841": "style",  # unused variable
+    "I": "style",     # import sorting
     "B": "logic",
     "E": "style",
     "W": "style",

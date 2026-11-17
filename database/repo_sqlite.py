@@ -34,7 +34,8 @@ def _now() -> str:
 
 class SqliteRepo:
     def __init__(self, path: str = ":memory:"):
-        self.db = sqlite3.connect(path)
+        # Streamlit serves each rerun from a different thread.
+        self.db = sqlite3.connect(path, check_same_thread=False)
         self.db.row_factory = sqlite3.Row
         self.db.executescript(_SCHEMA)
 
