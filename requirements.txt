@@ -3,3 +3,5 @@ python-dotenv
 openai
 google-genai
 ruff
+pytest
+supabase
