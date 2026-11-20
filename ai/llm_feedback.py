@@ -133,17 +133,3 @@ def validate_feedback(analysis_results, feedback):
         llm_output_rules.append(rule)
 
     return Counter(expected_rules) == Counter(llm_output_rules)
-
-
-# Manual integration test: requires a Gemini API key and API availability.
-if __name__ == "__main__":
-    from ai.code_mentor_pipeline import analyze_code
-
-    sample_code = """
-import math
-x = 10
-print(unknown_variable)
-"""
-    findings = analyze_code(sample_code)
-    feedback = generate_feedback(sample_code, findings)
-    print(feedback)

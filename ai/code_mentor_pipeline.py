@@ -16,7 +16,7 @@ import json
 import subprocess
 import sys
 
-# from database.taxonomy import categorize
+from database.taxonomy import categorize
 
 
 def ast_analysis(user_code):
@@ -49,7 +49,7 @@ def ast_analysis(user_code):
             {
                 "source": "AST",
                 "type": "indentation",
-                "category": "indentation",
+                "category": categorize("IndentationError"),
                 "line": error.lineno,
                 "message": error.msg,
             }
@@ -60,7 +60,7 @@ def ast_analysis(user_code):
             {
                 "source": "AST",
                 "type": "syntax",
-                "category": "syntax",
+                "category": categorize["SytnaxError"],
                 "line": error.lineno,
                 "message": error.msg,
             }
@@ -118,7 +118,7 @@ def ruff_analysis(user_code):
             {
                 "source": "Ruff",
                 "type": issue["code"],
-                # "category": categorize(issue["code"]),
+                "category": categorize(issue["code"]),
                 "line": issue["location"]["row"],
                 "message": issue["message"],
             }
