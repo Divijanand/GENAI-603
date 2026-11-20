@@ -53,8 +53,11 @@ def generate_feedback(user_code, analysis_results):
     For each finding:
     1. Explain the problem in simple, beginner-friendly language.
     2. Explain why it happens.
-    3. Give a helpful hint for fixing it without immediately
-       providing the complete corrected code.
+    3. Give only 3 helpful hints for each detected issue, progressing 
+        from gentle guidance to specific steps to take. Level 1 should be a gentle nudge, 
+        Level 2 should identify the likely cause, and Level 3 should provide actionable 
+        steps without writing the complete corrected code. Each level should be more 
+        informative than the previous one.
 
     Explain ONLY the issues listed in the static analysis findings.
     Do not add new issues or change their rule codes.
@@ -62,7 +65,7 @@ def generate_feedback(user_code, analysis_results):
     For each issue, provide:
     - rule: the exact rule code from the findings
     - explanation: a beginner-friendly explanation of the issue found
-    - hint: guidance without giving the full solution
+    - hints: guidance without giving the full solution
 
     Return valid JSON with this structure:
     {{
@@ -70,7 +73,11 @@ def generate_feedback(user_code, analysis_results):
             {{
                 "rule": "F821",
                 "explanation": "Explanation here",
-                "hint": "Hint here"
+                "hints": {{
+                    "1": "A gentle hint that encourages independent investigation.",
+                    "2": "A more specific hint identifying the likely cause.",
+                    "3": "Step-by-step guidance without providing the complete solution."
+                }}
             }}
         ]
     }}

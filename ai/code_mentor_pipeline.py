@@ -60,7 +60,7 @@ def ast_analysis(user_code):
             {
                 "source": "AST",
                 "type": "syntax",
-                "category": categorize["SytnaxError"],
+                "category": categorize("SyntaxError"),
                 "line": error.lineno,
                 "message": error.msg,
             }
