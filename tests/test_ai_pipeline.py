@@ -75,3 +75,12 @@ pprint(f"Missing 'hint': {validate_feedback(results, feedback2)}")
 pprint(f"Incorrect rule code: {validate_feedback(results, feedback3)}")
 pprint(f"Duplicate Feedback entry: {validate_feedback(results, feedback4)}")
 pprint(f"Empty explanation: {validate_feedback(results, feedback5)}")
+
+
+sample_code2 = """
+import math
+print(unknown_variable)
+"""
+
+results = analyze_code(sample_code2)
+pprint(results)
