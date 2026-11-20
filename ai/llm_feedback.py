@@ -65,6 +65,7 @@ def generate_feedback(user_code, analysis_results):
     For each issue, provide:
     - rule: the exact rule code from the findings
     - explanation: a beginner-friendly explanation of the issue found
+    - symbol: the identifier associated with the finding, or an empty string if none exists
     - hints: guidance without giving the full solution
 
     Return valid JSON with this structure:
@@ -73,6 +74,7 @@ def generate_feedback(user_code, analysis_results):
             {{
                 "rule": "F821",
                 "explanation": "Explanation here",
+                "symbol": "score",
                 "hints": {{
                     "1": "A gentle hint that encourages independent investigation.",
                     "2": "A more specific hint identifying the likely cause.",
@@ -129,13 +131,25 @@ def validate_feedback(analysis_results, feedback):
     for item in feedback["feedback"]:
         rule = item.get("rule")
         explanation = item.get("explanation")
-        hint = item.get("hint")
+        symbol = item.get("symbol")
+        hints = item.get("hints")
 
-        if not all(isinstance(val, str) for val in (explanation, hint, rule)):
+        if not all(isinstance(val, str) for val in (explanation, symbol, rule)):
             return False
 
-        if not (explanation.strip() and hint.strip() and rule.strip()):
+        if not isinstance(hints, dict):
             return False
+
+        if not (explanation.strip() and rule.strip()):
+            return False
+
+        required_keys = {"1", "2", "3"}
+        if set(hints.keys()) != required_keys:
+            return False
+
+        for hint in hints.values():
+            if not isinstance(hint, str) or not (hint.strip()):
+                return False
 
         llm_output_rules.append(rule)
 
